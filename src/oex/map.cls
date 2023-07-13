@@ -33,6 +33,10 @@ Property ZPM As %Boolean [ Calculated, SqlComputeCode = { set {*}=$S({zpmmodul}/
 
 Property xurl As %String(MAXLEN = "") [ Calculated, SqlComputeCode = {set {*}="https://openexchange.intersystems.com"_{url}}, SqlComputed ];
 
+Property repo As %String(MAXLEN = "");
+
+Property demo As %String(MAXLEN = "");
+
 Index url On url [ Unique ];
 
 Index pgn On page [ Type = bitmap ];
@@ -43,6 +47,7 @@ ClassMethod unique(url As %String) As %Boolean
 {
   quit '..urlExists(url)
 }
+
 ClassMethod quick(file As %String = "oex.XML") As %Boolean [ SqlName = QUICK, SqlProc ]
 {
   if $i(sc),'$d(^oex) set sc=$system.OBJ.Load(file)
@@ -100,8 +105,18 @@ ClassMethod total(maxpage As %Integer = 25) As %Integer [ SqlName = TOTAL, SqlPr
 	write $zdt($h,3)," loaded "_sc_" details",!	
 	quit $$$OK
 }
+
 Storage Default
 {
+<Data name="map1DefaultData">
+<Subscript>"1"</Subscript>
+<Value name="1">
+<Value>repo</Value>
+</Value>
+<Value name="2">
+<Value>demo</Value>
+</Value>
+</Data>
 <Data name="mapDefaultData">
 <Value name="1">
 <Value>url</Value>
@@ -136,10 +151,12 @@ Storage Default
 </Data>
 <DataLocation>^oex.mapD</DataLocation>
 <DefaultData>map1DefaultData</DefaultData>
+<ExtentSize>0</ExtentSize>
 <IdLocation>^oex.mapD</IdLocation>
 <IndexLocation>^oex.mapI</IndexLocation>
 <StreamLocation>^oex.mapS</StreamLocation>
 <Type>%Storage.Persistent</Type>
 }
+
 }
-                                    
+

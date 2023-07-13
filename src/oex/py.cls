@@ -1,5 +1,6 @@
 Class oex.py [ Language = python ]
 {
+
 /// clear old stuff
 ClassMethod clear() As %Boolean [ SqlName = CLEAR, SqlProc ]
 {
@@ -7,10 +8,9 @@ ClassMethod clear() As %Boolean [ SqlName = CLEAR, SqlProc ]
  st = iris.cls('oex.map')._KillExtent()
  return (st==1)
 }
+
 /// load oex directory 
-ClassMethod load(
-	first As %Integer = 1,
-	last As %Integer = 1) As %String(MAXLEN="") [ SqlName = LOAD, SqlProc ]
+ClassMethod load(first As %Integer = 1, last As %Integer = 1) As %String(MAXLEN="") [ SqlName = LOAD, SqlProc ]
 {
 import iris
 pn  =first
@@ -24,6 +24,7 @@ while (pn<=last):
    pn +=1  
 return list
 }
+
 /// load and scan directory page
 ClassMethod page(pn = 1) As %Boolean [ SqlName = PAGE, SqlProc ]
 {
@@ -61,6 +62,7 @@ while True :
   frm=til
 return True
 }
+
 /// load and scan package and review page
 ClassMethod detail(id As %Integer) As %Boolean [ SqlName = DETAIL, SqlProc ]
 {
@@ -127,6 +129,20 @@ if f1>0:
   val=pg[f1:t1]
   obj.lastupdate=val
 
+## repo
+f1=past('data-info-repo=""',t1)
+f1=past('href="',f1)
+t1=pg.find('">',f1)
+val=pg[f1:t1]
+obj.repo=val 
+
+## demo
+f1=past('data-demo-url=""',t1)
+f1=past('value="',f1)
+t1=pg.find('"',f1)
+val=pg[f1:t1]
+obj.demo=val 
+
 ## review
 revlk=link+'?tab=reviews'
 rev=str(req.urlopen(revlk).read())
@@ -137,4 +153,6 @@ if f1<0:
 st=obj._Save()
 return 1
 }
+
 }
+
