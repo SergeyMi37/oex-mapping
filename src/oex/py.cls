@@ -116,6 +116,19 @@ t1=pg.find('</',f1)
 val=pg[f1:t1]
 obj.author=val 
 
+## version
+f1=past('data-info-version="">',t1)
+t1=pg.find('</',f1)
+val=pg[f1:t1]
+obj.version=val 
+
+## lastupdate
+f1=past('data-info-updated="">',t1)
+if f1>0:
+  t1=pg.find('</',f1)
+  val=pg[f1:t1]
+  obj.lastupdate=val
+
 ## repo
 f1=past('data-info-repo=""',t1)
 f1=past('href="',f1)
@@ -129,19 +142,6 @@ f1=past('value="',f1)
 t1=pg.find('"',f1)
 val=pg[f1:t1]
 obj.demo=val 
-
-## version
-f1=past('data-info-version="">',t1)
-t1=pg.find('</',f1)
-val=pg[f1:t1]
-obj.version=val 
-
-## lastupdate
-f1=past('data-info-updated="">',t1)
-if f1>0:
-  t1=pg.find('</',f1)
-  val=pg[f1:t1]
-  obj.lastupdate=val
 
 ## review
 revlk=link+'?tab=reviews'
